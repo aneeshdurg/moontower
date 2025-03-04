@@ -1,0 +1,26 @@
+body {
+  background: #fff5d1;
+}
+
+.container {
+  width: 80%;
+  margin-left: 10%;
+}
+@media (orientation: landscape) {
+  .container {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+h1 {
+  font-size: 24px;
+}
+
+.imgctr {
+  text-align: center;
+}
+
+.imgctr > img {
+  max-width: 75%;
+}

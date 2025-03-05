@@ -40,8 +40,18 @@ def add(service: str):
         session.commit()
 
 
+@cli.command("delete")
+@click.argument("service", type=str)
+def delete(service: str):
+    with Session(engine) as session:
+        session.execute(
+            sa.delete(AccessCounter).where(AccessCounter.service == service)
+        )
+        session.commit()
+
+
 @cli.command("view")
-@click.argument("service", type=str, default=None)
+@click.option("--service", type=str, default=None)
 def view(service: str | None):
     with Session(engine) as session:
         if service is None:

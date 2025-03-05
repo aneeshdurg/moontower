@@ -1,0 +1,47 @@
+@font-face {
+  font-family: "atkinsonmono";
+  src: url("fonts/AtkinsonHyperlegibleMono/AtkinsonHyperlegibleMono-Regular.ttf");
+}
+
+@font-face {
+  font-family: "atkinsonmono";
+  src: url("fonts/AtkinsonHyperlegibleMono/AtkinsonHyperlegibleMono-Bold.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "atkinsonmono";
+  src: url("fonts/AtkinsonHyperlegibleMono/AtkinsonHyperlegibleMono-Italic.ttf");
+  font-style: italic;
+}
+
+body {
+  background: #fff5d1;
+}
+
+.container {
+  width: 80%;
+  margin-left: 10%;
+}
+@media (orientation: landscape) {
+  .container {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+h1 {
+  font-size: 24px;
+  font-family: atkinsonmono, mono;
+}
+
+h2 {
+}
+
+.imgctr {
+  text-align: center;
+}
+
+.imgctr > img {
+  max-width: 75%;
+}

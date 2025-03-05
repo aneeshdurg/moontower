@@ -11,7 +11,7 @@ print(f"""\
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/~aneesh/style.css">
+        <link rel="stylesheet" href="/~aneesh/static/style.css">
         <title>CGI test</title>
     </head>
     <body>

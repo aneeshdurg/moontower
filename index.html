@@ -3,6 +3,21 @@
 <head>
   <title>~aneesh</title>
   <link rel="stylesheet" href="/~aneesh/static/style.css">
+  <style>
+    .accesscounter {
+      font-style: italic;
+      font-size: 10px;
+    }
+  </style>
+
+  <script src="/~aneesh/static/accesscounter.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const ctr = await getaccesscounter();
+      const plural = ctr == 1 ? "" : "s";
+      document.getElementById("accesscounter").innerText = `${ctr} time${plural}`;
+    });
+  </script>
 </head>
 <body>
   <div class="container">
@@ -23,7 +38,7 @@
     <ul>
       <li><a href="https://aashdurg.github.io/">https://aashdurg.github.io/</a></li>
       <li><a href="https://evaemmerich.com/">https://evaemmerich.com/</a></li>
-      <li><a href="https://pradyumnashome.com/">"https://pradyumnashome.com/"</a></li>
+      <li><a href="https://pradyumnashome.com/">https://pradyumnashome.com/</a></li>
       <li><a href="https://pyrito.github.io/">https://pyrito.github.io/</a></li>
     </ul>
 
@@ -35,6 +50,10 @@
       <li><a href="https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ">Kaze Emanuar</a></li>
       <li><a href="https://iquilezles.org/">Inigo Quilez</a></li>
     </ul>
+
+    <br>
+    <br>
+    <div class="accesscounter">This page has been visited <span id="accesscounter">? times</span>!</div>
   </div>
 </body>
 </html>

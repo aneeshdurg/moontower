@@ -1,0 +1,23 @@
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const output = document.getElementById("output");
+
+    console.log("Fetching\n");
+    const resp = await fetch("/~aneesh/cgi-bin/test/infinite_stream.py");
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    console.log("Starting read\n");
+    while (true) {
+      const res = await reader.read();
+      console.log("got read resp\n");
+      if (res.value) {
+        output.innerText += decoder.decode(res.value);
+      }
+
+      if (res.done) {
+        break;
+      }
+    }
+  });
+</script>
+<code id="output"></code>

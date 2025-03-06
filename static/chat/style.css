@@ -1,0 +1,27 @@
+.chatroom {
+  height: 75%;
+}
+.editor {
+  height: 20%;
+}
+
+.msgtimestamp::before {
+  content: '  ';
+}
+
+.msgtimestamp {
+  font-size: 10px;
+}
+
+.msgcontent {
+  padding-left: 2em;
+}
+
+.msgimg {
+  padding-left: 2em;
+  background: white;
+}
+
+#mycanvas {
+  background: white;
+}

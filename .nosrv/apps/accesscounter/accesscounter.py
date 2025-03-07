@@ -5,7 +5,7 @@ import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
-root = "/home/aneesh/public/.nosrv/accesscounter"
+root = "/home/aneesh/public/.nosrv/apps/accesscounter"
 engine = create_engine(f"sqlite:///{root}/accesscounter.sqlite3")
 
 

@@ -1,7 +1,10 @@
 #!/usr/bin/python -u
-import base64
+# It's imperative that the shebang line above has -u for streaming events
+
+import atexit
 import json
 import os
+import select
 import subprocess
 import sys
 from multiprocessing import Process
@@ -14,20 +17,34 @@ app = chat / "app.py"
 db = chat / "chat.sqlite3"
 interpreter = nosrv / "pydb/bin/python"
 
+def kill_on_exit(p: subprocess.Popen):
+    p.terminate()
+    try:
+        p.wait(timeout=1)
+    except subprocess.TimeoutExpired:
+        p.kill()
+        p.wait()
+
 
 def _listener(since: str):
     """Stream new events to the client for 30s"""
 
     # TODO - is this timeout necessary?
     p = subprocess.Popen(
-        ["timeout", "30", "inotifywait", "-m", db, "-e", "modify"],
+        ["inotifywait", "-m", db, "-e", "modify"],
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
     )
+    atexit.register(lambda: kill_on_exit(p))
+    assert p.stdout
     last_ts = since
+
+    def heartbeat():
+        print("data: heartbeat\n")
 
     def update():
         nonlocal last_ts
+        sent_records = 0
         try:
             new_msgs = subprocess.check_output(
                 [interpreter, app, "view", "--since", last_ts]
@@ -37,12 +54,35 @@ def _listener(since: str):
                     j_msg = json.loads(msg)
                     last_ts = j_msg["timestamp"]
                     print(f"data: {msg}\n")
+                    sent_records += 1
         except Exception as e:
             print("unexpected error", e)
             raise e
-
+        return sent_records
     # Get all messages to start
     update()
+
+    os.set_blocking(p.stdout.fileno(), False)
+    fds = [p.stdout]
+    while True:
+        (r, _, e) = select.select(fds, [], fds, 1)
+        if e:
+            break
+        if not r:
+            # We got here via timeout
+            heartbeat()
+            continue
+
+        should_update = p.stdout.readline()
+        if not should_update:
+            break
+        # consume any other updates that we missed, so that we don't call
+        # `update` multiple times without finding any new data to send
+        while p.stdout.readline():
+            pass
+        if update() == 0:
+            heartbeat()
+
     # Get new messages for every update
     while _ := p.stdout.readline():
         update()
@@ -58,12 +98,7 @@ def listener():
     since = "1970-01-01 00:00:00.00"
     if len(p := params.get("listen", [])) == 1:
         since = p[0]
-
-    p = Process(target=_listener, args=(since,))
-    p.start()
-    p.join(timeout=30)
-    p.terminate()
-    p.join()
+    _listener(since)
 
 
 def receiver():

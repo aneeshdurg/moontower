@@ -1,0 +1,19 @@
+<head>
+  <title>~aneesh</title>
+  <link rel="stylesheet" href="/~aneesh/static/style.css">
+  <style>
+    .accesscounter {
+      font-style: italic;
+      font-size: 10px;
+    }
+  </style>
+
+  <script src="/~aneesh/static/accesscounter.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const ctr = await getaccesscounter();
+      const plural = ctr == 1 ? "" : "s";
+      document.getElementById("accesscounter").innerText = `${ctr} time${plural}`;
+    });
+  </script>
+</head>

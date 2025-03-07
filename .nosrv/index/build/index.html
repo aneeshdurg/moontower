@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>~aneesh</title>
+  <link rel="stylesheet" href="/~aneesh/static/style.css">
+  <style>
+    .accesscounter {
+      font-style: italic;
+      font-size: 10px;
+    }
+  </style>
+
+  <script src="/~aneesh/static/accesscounter.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const ctr = await getaccesscounter();
+      const plural = ctr == 1 ? "" : "s";
+      document.getElementById("accesscounter").innerText = `${ctr} time${plural}`;
+    });
+  </script>
+</head>
+<body>
+<h1 id="aneesh">/~aneesh</h1>
+<hr>
+<p>Welcome to my personal <span style="color: red">w</span><span
+style="color: orange">e</span><span style="color: #cc9900">b</span><span
+style="color: green">p</span><span style="color: blue">a</span><span
+style="color: indigo">g</span><span style="color: violet">e</span>!</p>
+<p>I'm not sure what I want to use this space for yet, but I'm sure I'd
+like to contribute to the <a
+href="https://ar.al/2020/08/07/what-is-the-small-web/">small
+web</a>.</p>
+For now, here's a picture of my cats!
+<div class="imgctr">
+<figure>
+<img src="/~aneesh/static/images/cats.jpg" alt="my cats!" />
+<figcaption aria-hidden="true">my cats!</figcaption>
+</figure>
+</div>
+<p>My <em>real</em> web presence can be found <a
+href="https://aneeshdurg.me">here</a></p>
+<h2 id="fun-things-im-working-on-rn">Fun things I'm working on
+rn!!!</h2>
+<ul>
+<li><a href="/">Moontower Computer Club</a>
+<ul>
+<li>I'm trying to help get this club off the ground!</li>
+</ul></li>
+<li><a href="/~aneesh/chat">pictochat</a> - a CGI webapp inspired
+loosely by Pictochat
+<ul>
+<li>This was mainly made to stresstest the CGI server running here.</li>
+<li>The world of CGI is so wild - I need to write a blog post about it
+sometime.</li>
+</ul></li>
+</ul>
+<h2 id="real-people-i-know-and-think-are-cool">Real people I know and
+think are cool</h2>
+<p>Here's a list of awesome humans on the Internet (alphabetical
+order).</p>
+<ul>
+<li><a href="https://aashdurg.github.io/"
+class="uri">https://aashdurg.github.io/</a></li>
+<li><a href="https://evaemmerich.com/"
+class="uri">https://evaemmerich.com/</a></li>
+<li><a href="https://pradyumnashome.com/"
+class="uri">https://pradyumnashome.com/</a></li>
+<li><a href="https://pyrito.github.io/"
+class="uri">https://pyrito.github.io/</a></li>
+</ul>
+<h2
+id="allegedly-real-people-on-the-internet-i-think-are-cool">(Allegedly)
+Real People on the Internet I think are cool</h2>
+<p>Here's a list of awesome (supposed) humans on the Internet (arbitrary
+order).</p>
+<ul>
+<li><a href="http://tom7.org/">Tom7</a></li>
+<li><a href="https://mitxela.com/">mitxela</a></li>
+<li><a
+href="https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ">Kaze
+Emanuar</a></li>
+<li><a href="https://iquilezles.org/">Inigo Quilez</a></li>
+</ul>
+<footer>
+    <div class="accesscounter">
+        This page has been visited <span id="accesscounter">? times</span>!
+    </div>
+</footer>
+</body>
+</html>

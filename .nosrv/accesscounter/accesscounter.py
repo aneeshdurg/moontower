@@ -1,3 +1,4 @@
+#!/home/aneesh/public/.nosrv/pydb/bin/python
 import click
 
 import sqlalchemy as sa

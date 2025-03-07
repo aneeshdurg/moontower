@@ -16,4 +16,4 @@ if [-z "$SERVICE"]; then
   SERVICE="index"
 fi
 
-$ROOT/bin/python $ROOT/accesscounter.py touch $SERVICE
+$ROOT/accesscounter.py touch $SERVICE

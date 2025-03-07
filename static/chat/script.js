@@ -117,6 +117,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       newElement.innerHTML += `<br>`;
       chatroom.appendChild(newElement);
 
+      setTimeout(() => { chatroom.scrollTop = chatroom.scrollHeight; }, 10);
+
       last_ts = msg.timestamp.replaceAll(' ', '+');
     };
     evtSource.onerror = (e) => {

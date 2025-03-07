@@ -9,7 +9,7 @@
 
 echo -e "Content-Type: text/plain\n\n"
 
-ROOT=~/public/.nosrv/accesscounter
+ROOT=~/public/.nosrv/apps/accesscounter
 
 SERVICE=${QUERY_STRING:-index}
 if [-z "$SERVICE"]; then

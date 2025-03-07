@@ -7,7 +7,6 @@ import os
 import select
 import subprocess
 import sys
-from multiprocessing import Process
 from pathlib import Path
 from urllib.parse import parse_qs
 
@@ -16,6 +15,7 @@ chat = nosrv / "apps/chat"
 app = chat / "app.py"
 db = chat / "chat.sqlite3"
 interpreter = nosrv / "pydb/bin/python"
+
 
 def kill_on_exit(p: subprocess.Popen):
     p.terminate()
@@ -26,10 +26,18 @@ def kill_on_exit(p: subprocess.Popen):
         p.wait()
 
 
-def _listener(since: str):
+def listener():
     """Stream new events to the client for 30s"""
+    print("Content-Type: text/event-stream")
+    print("X-Accel-Buffering: no")
+    print("Cache-Control: no-cache")
+    print("\n\n", end="")
 
-    # TODO - is this timeout necessary?
+    params = parse_qs(os.environ["QUERY_STRING"])
+    since = "1970-01-01 00:00:00.00"
+    if len(p := params.get("listen", [])) == 1:
+        since = p[0]
+
     p = subprocess.Popen(
         ["inotifywait", "-m", db, "-e", "modify"],
         stdout=subprocess.PIPE,
@@ -59,6 +67,7 @@ def _listener(since: str):
             print("unexpected error", e)
             raise e
         return sent_records
+
     # Get all messages to start
     update()
 
@@ -86,19 +95,6 @@ def _listener(since: str):
     # Get new messages for every update
     while _ := p.stdout.readline():
         update()
-
-
-def listener():
-    print("Content-Type: text/event-stream")
-    print("X-Accel-Buffering: no")
-    print("Cache-Control: no-cache")
-    print("\n\n", end="")
-
-    params = parse_qs(os.environ["QUERY_STRING"])
-    since = "1970-01-01 00:00:00.00"
-    if len(p := params.get("listen", [])) == 1:
-        since = p[0]
-    _listener(since)
 
 
 def receiver():

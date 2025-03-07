@@ -68,7 +68,6 @@ class PictoChat {
         console.log(resp);
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
       } catch (e) {
-        // TODO - don't clear rect until success
         console.log("ERROR sending");
         console.log(e);
         // TODO use HTML modal instead

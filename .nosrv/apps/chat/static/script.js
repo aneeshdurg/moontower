@@ -80,6 +80,13 @@ class PictoChat {
 
     // Start listening to events from server
     this.listener();
+
+    // Periodically prune at random intervals - at least 10s, at most 300s
+    const pruner = () => {
+      this.prune();
+      setTimeout(pruner, 10 + 290 * Math.random());
+    };
+    pruner();
   }
 
   getCoordsFromEvent(event, canvas) {
@@ -143,11 +150,6 @@ class PictoChat {
       evtSource.close();
       // Reopen the source
       this.listener();
-      this.prune_counter += 1;
-      if (this.prune_counter % 4 == 0) {
-        this.prune();
-        this.prune_counter = 0;
-      }
     };
   }
 }

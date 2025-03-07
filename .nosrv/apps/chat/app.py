@@ -59,11 +59,11 @@ def add():
 def view(since: str | None):
     if since is None:
         since = "1970-01-01 00:00:00.00"
-    since = datetime.strptime(since, "%Y-%m-%d %H:%M:%S.%f")
+    since_dt = datetime.strptime(since, "%Y-%m-%d %H:%M:%S.%f")
     with Session(engine) as session:
         for msg in session.scalars(
             sa.select(Message)
-            .where(Message.timestamp > since)
+            .where(Message.timestamp > since_dt)
             .order_by(Message.timestamp.asc())
         ).all():
             print(msg)
@@ -76,39 +76,13 @@ def prune(since: str | None):
     # based memory
     if since is None:
         delta = timedelta(minutes=-5)
-        since = datetime.now(UTC) + delta
+        since_dt = datetime.now(UTC) + delta
     else:
-        since = datetime.strptime(since, "%Y-%m-%d %H:%M:%S.%f")
+        since_dt = datetime.strptime(since, "%Y-%m-%d %H:%M:%S.%f")
     with Session(engine) as session:
-        session.execute(sa.delete(Message).where(Message.timestamp <= since))
+        session.execute(sa.delete(Message).where(Message.timestamp <= since_dt))
         session.commit()
 
-
-"""
-@cli.command("delete")
-@click.argument("service", type=str)
-def delete(service: str):
-    with Session(engine) as session:
-        session.execute(
-            sa.delete(AccessCounter).where(AccessCounter.service == service)
-        )
-        session.commit()
-
-
-@cli.command("view")
-@click.option("--service", type=str, default=None)
-def view(service: str | None):
-    with Session(engine) as session:
-        if service is None:
-            for ctr in session.scalars(sa.select(AccessCounter)).all():
-                print(f"{ctr.service} = {ctr.counter}")
-        else:
-            ctr = session.scalars(
-                sa.select(AccessCounter).where(AccessCounter.service == service)
-            ).first()
-            print(ctr.counter)
-
-"""
 
 if __name__ == "__main__":
     cli()

@@ -99,10 +99,8 @@ def listener():
 
 def receiver():
     """Receive a new message from the client"""
-    # Consume all of the input
-    # TODO - limit the maximum size here
-    message = sys.stdin.buffer.read()
-    # TODO - parse the message
+    # Read at most 512KB - most messages will likely be less than 20KB even.
+    message = sys.stdin.buffer.read(512 * 1024)
     try:
         p = subprocess.Popen(
             [interpreter, app, "message"],

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include 'site/head.html' %}
+    <link rel="stylesheet" href="/~aneesh/blog/static/style.css">
+  </head>
+  <body>
+    <div class="siteheading">
+      {% include 'site/heading.html' %}
+    </div>
+    <div class="container">
+      <div class="post">
+        <div class="postheader">
+          {{post.title()}}
+          <br>
+          {{post.preview}}
+          <hr class="postbreak">
+        </div>
+        <div class="postbody">
+          {{post.body}}
+        </div>
+        <div class="postfooter">
+          written on {{post.year}}/{{post.month}}/{{post.day}}
+        </div>
+      </div>
+    </div>
+    {% include 'site/footer.html' %}
+  </body>
+</html>

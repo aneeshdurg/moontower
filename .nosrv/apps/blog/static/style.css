@@ -1,0 +1,69 @@
+.sitelink {
+  color: black;
+  text-decoration: none;
+}
+
+.sitelink:hover {
+  color: blue;
+}
+
+.sitelink > a {
+  color: unset;
+  text-decoration: unset;
+}
+
+.sitelink > h1 {
+  display: inline;
+}
+
+.postlistentry {
+  list-style-type: none;
+}
+
+
+.postlistentrylink {
+  color: black;
+  text-decoration: none;
+}
+.postlistentrylink:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.postlistentry-title {
+  display: inline;
+}
+.postlistentry-title > h1 {
+  display: inline;
+}
+@media (orientation: landscape) {
+  .postlistentry {
+    white-space: nowrap;
+  }
+}
+
+.postlistentry-date {
+  font-family: atkinsonmono, mono;
+  font-size: 12px;
+  color: grey;
+}
+
+.postlistentry-preview {
+  white-space: wrap;
+  margin-left: 2em;
+  font-family: atkinsonmono, mono;
+}
+
+.post {
+  font-family: sans-serif;
+}
+
+.postbreak {
+  border-top: grey;
+}
+
+@media (orientation: landscape) {
+  .posttitle {
+    white-space: nowrap;
+  }
+}

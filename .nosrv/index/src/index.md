@@ -1,4 +1,7 @@
-# /~aneesh
+# [/](/)~aneesh
+<div class="navlinks">
+[**/blog**](/~aneesh/blog/)
+</div>
 <hr>
 Welcome to my personal <span style="color: red">w</span><span style="color: orange">e</span><span style="color: #cc9900">b</span><span style="color: green">p</span><span style="color: blue">a</span><span style="color: indigo">g</span><span style="color: violet">e</span>!
 

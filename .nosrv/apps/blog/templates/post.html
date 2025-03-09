@@ -3,15 +3,18 @@
   <head>
     {% include 'site/head.html' %}
     <link rel="stylesheet" href="/~aneesh/blog/static/style.css">
+    <title>/~aneesh/blog - {{post.title()}}</title>
   </head>
   <body>
-    <div class="siteheading">
-      {% include 'site/heading.html' %}
-    </div>
     <div class="container">
+      <div class="siteheading">
+        {% include 'site/heading.html' %}
+      </div>
       <div class="post">
         <div class="postheader">
-          {{post.title()}}
+          <div class="posttitle">
+            {{post.title()}}
+          </div>
           <br>
           {{post.preview}}
           <hr class="postbreak">
@@ -19,8 +22,8 @@
         <div class="postbody">
           {{post.body}}
         </div>
-        <div class="postfooter">
-          written on {{post.year}}/{{post.month}}/{{post.day}}
+        <div class="postlistentry-date">
+          Written on {{post.year}}/{{post.month}}/{{post.day}}
         </div>
       </div>
     </div>

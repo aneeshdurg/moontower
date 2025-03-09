@@ -3,7 +3,6 @@ import subprocess
 import urllib.parse
 from dataclasses import dataclass
 from pathlib import Path
-from typing import IO
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -107,8 +106,10 @@ class Generator:
 
     def build_index(self, posts: list[Post]):
         # This is never built from cache, it should be fast to build anyway
-
-        pass
+        rendered = self.env.get_template("index.html").render(posts=posts)
+        index_file = Generator.BUILD_DIR / "index.html"
+        with index_file.open("w") as f:
+            f.write(rendered)
 
     def build_post(self, post: Post):
         post_dir = Generator.BUILD_DIR / str(post.year) / str(post.month)
@@ -123,8 +124,11 @@ class Generator:
             f.write(rendered)
 
     def generate(self):
+        static_dir = Path('static').absolute()
         # Synchronize static/ with build/static/
-        os.system("rsync --archive --delete --verbose static build/static")
+        # os.system("rm -rfv build/static")
+        # os.system(f"ln -sv {static_dir} build/static")
+        os.system("rsync --archive --delete --verbose static build/")
 
         post_dir = Path("posts")
         posts = []

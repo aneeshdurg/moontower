@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include 'site/head.html' %}
+    <link rel="stylesheet" href="/~aneesh/blog/static/style.css">
+    <title>/~aneesh/blog</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="siteheading">
+        {% include 'site/heading.html' %}
+      </div>
+      <ul class="postlist">
+{% for p in posts %}
+        <li class="postlistentry">
+          <a class="postlistentrylink" href="/~aneesh/blog/{{p.year}}/{{p.month}}/{{p.name}}.html">
+            <span class="postlistentry-title">{{p.title()}}</span>
+          </a>
+          <br>
+          <div class="postlistentry-preview">
+            {{p.preview}}
+            <a class="postlistentrylink" href="/~aneesh/blog/{{p.year}}/{{p.month}}/{{p.name}}.html">
+              <span class="postlistentry-date">Written on {{p.year}}-{{p.month}}-{{p.day}}</span>
+            </a>
+          </div>
+        </li>
+{% endfor %}
+      </ul>
+    </div>
+    {% include 'site/footer.html' %}
+  </body>
+</html>

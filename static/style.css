@@ -65,3 +65,7 @@ h2 {
 .imgctr > img {
   max-width: 75%;
 }
+
+.indexcontainer {
+  padding-top: 1em;
+}

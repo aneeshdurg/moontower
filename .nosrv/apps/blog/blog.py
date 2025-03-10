@@ -61,6 +61,9 @@ class Post:
     def title(self):
         return self.headers["title"]
 
+    def uri(self):
+        return f'/posts/{self.year}/{self.month}/{self.day}/{self.name}.html'
+
     def footer(self):
         pass
 
@@ -112,9 +115,8 @@ class Generator:
             f.write(rendered)
 
     def build_post(self, post: Post):
-        post_dir = Generator.BUILD_DIR / str(post.year) / str(post.month)
-        os.makedirs(post_dir, exist_ok=True)
-        post_file = (post_dir / post.name).with_suffix(".html")
+        post_file = Generator.BUILD_DIR / post.uri()[1:]
+        os.makedirs(post_file.parent, exist_ok=True)
         if post_file.exists() and post_file.lstat().st_mtime > post.mtime:
             print("CACHED", post.name)
             return

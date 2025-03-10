@@ -1,11 +1,22 @@
-echo "<!DOCTYPE html>"
-echo "<html>"
+echo "\
+<!DOCTYPE html>
+<html>
+"
 
 cat src/head.html
 
-echo "<body>"
+echo "\
+  <body>
+    <div class='indexcontainer'>
+      <div class='container'>
+"
+
 pandoc -f markdown-smart -t html src/index.md
 cat src/footer.html
-echo "</body>"
 
-echo "</html>"
+echo "\
+      </div>
+    </div>
+  </body>
+</html>
+"

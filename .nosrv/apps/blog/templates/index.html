@@ -13,7 +13,7 @@
       <ul class="postlist">
 {% for p in posts %}
         <li class="postlistentry">
-          <a class="postlistentrylink" href="/~aneesh/blog/{{p.year}}/{{p.month}}/{{p.name}}.html">
+          <a class="postlistentrylink" href="/~aneesh/blog{{p.uri()}}">
             <span class="postlistentry-title">{{p.title()}}</span>
           </a>
           <br>

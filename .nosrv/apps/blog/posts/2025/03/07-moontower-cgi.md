@@ -133,7 +133,7 @@ I found a nice method that I wanted to share with everyone.
 
 Here is a simplified view of what my `~/public` directory looks like:
 
-```
+```tree
 .
 ├── .git
 │   └── ...
@@ -163,7 +163,7 @@ Here is a simplified view of what my `~/public` directory looks like:
 My entire `~/public` directory is a git repo (which you can see publicly at
 <https://github.com/aneeshdurg/moontower>). The `nginx` config is set to _never_
 serve any hidden files or directories, so things in `.git` and `.nosrv` are not
-publicly accessible via <https://moontowercomputer.com/>. This means that I can
+publicly accessible via <https://moontowercomputer.club/>. This means that I can
 keep things like my database inside `.nosrv` without the possibility of users
 downloading the entire database. To make something visible publicly, I
 [symlink](https://en.wikipedia.org/wiki/Symbolic_link) it into somewhere in

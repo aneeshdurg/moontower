@@ -1,4 +1,6 @@
+import argparse
 import os
+import select
 import subprocess
 import urllib.parse
 from dataclasses import dataclass
@@ -20,6 +22,7 @@ class Post:
     month: int
     day: int
     name: str
+    is_draft: bool
     cached: bool
 
     @classmethod
@@ -28,8 +31,12 @@ class Post:
         month = int(month_dir.stem)
         year_dir = month_dir.parent
         year = int(year_dir.stem)
-        day = int(filepath.name.split("-")[0])
         name = filepath.stem
+        is_draft = name.startswith("draft.")
+        if is_draft:
+            day = int(name.split(".")[1].split("-")[0])
+        else:
+            day = int(name.split("-")[0])
 
         headers = {}
 
@@ -56,13 +63,27 @@ class Post:
 
             body, c = gen.pandoc(cache_key + "_body", mtime, f.read().strip())
             cached &= c
-        return Post(mtime, headers, preview, body, year, month, day, name, cached)
+        return Post(
+            mtime=mtime,
+            headers=headers,
+            preview=preview,
+            body=body,
+            year=year,
+            month=month,
+            day=day,
+            name=name,
+            is_draft=is_draft,
+            cached=cached,
+        )
 
     def title(self):
         return self.headers["title"]
 
     def uri(self):
-        return f'/posts/{self.year}/{self.month}/{self.day}/{self.name}.html'
+        root = "/posts"
+        if self.is_draft:
+            root = "/drafts/posts"
+        return f"{root}/{self.year}/{self.month}/{self.day}/{self.name}.html"
 
     def footer(self):
         pass
@@ -73,7 +94,9 @@ class Generator:
     CACHE_DIR = Path("build/.cache")
     TEMPLATE_DIR = Path("templates/")
 
+    # TODO - introduce a per-thread CacheManager object and parallelize builds
     accessed_cache_keys: set[str]
+
     post_header: str
     post_footer: str
 
@@ -109,7 +132,9 @@ class Generator:
 
     def build_index(self, posts: list[Post]):
         # This is never built from cache, it should be fast to build anyway
-        rendered = self.env.get_template("index.html").render(posts=posts)
+        rendered = self.env.get_template("index.html").render(
+            posts=[p for p in posts if not p.is_draft]
+        )
         index_file = Generator.BUILD_DIR / "index.html"
         with index_file.open("w") as f:
             f.write(rendered)
@@ -120,17 +145,22 @@ class Generator:
         if post_file.exists() and post_file.lstat().st_mtime > post.mtime:
             print("CACHED", post.name)
             return
+        print("BUILT", post.name)
 
         rendered = self.env.get_template("post.html").render(post=post)
         with post_file.open("w") as f:
             f.write(rendered)
 
     def generate(self):
-        static_dir = Path('static').absolute()
+        # TODO - if any templates were modified, remove all uncached assets
+        static_dir = Path("static").absolute()
         # Synchronize static/ with build/static/
-        # os.system("rm -rfv build/static")
-        # os.system(f"ln -sv {static_dir} build/static")
-        os.system("rsync --archive --delete --verbose static build/")
+        p = subprocess.Popen(
+            "rsync --archive --delete --verbose".split()
+            + [static_dir, Generator.BUILD_DIR],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
 
         post_dir = Path("posts")
         posts = []
@@ -138,13 +168,41 @@ class Generator:
             for month_dir in year_dir.iterdir():
                 for post in month_dir.glob("*.md"):
                     posts.append(Post.from_file(self, post))
+        posts.sort(key=lambda x: (x.year, x.month, x.day), reverse=True)
 
         for post in posts:
             self.build_post(post)
         self.build_index(posts)
         self.cleanup_cache()
 
+        p.wait()
+        assert p.returncode == 0
+        print("static/ copied successfully")
+
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-w", "--watch", action="store_true")
+    args = parser.parse_args()
+
     gen = Generator()
     gen.generate()
+    if args.watch:
+        p = subprocess.Popen(
+            ["inotifywait", "-e", "modify", "-r", "-m", "posts"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+        assert p.stdout
+        os.set_blocking(p.stdout.fileno(), False)
+        fds = [p.stdout]
+        while True:
+            r, _, e = select.select(fds, [], fds)
+            if e:
+                break
+            while line := p.stdout.readline():
+                continue
+            gen = Generator()
+            gen.generate()
+            if p.returncode is not None:
+                break

@@ -15,6 +15,9 @@ For now, here's a picture of my cats!
 
 My _real_ web presence can be found [here](https://aneeshdurg.me)
 
+When I'm not coding I like cycling, running, eating, cooking, reading, and
+crosswords among other things!
+
 ## Fun things I'm working on rn!!!
 
 + [Moontower Computer Club](/)

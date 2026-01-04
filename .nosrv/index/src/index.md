@@ -33,6 +33,8 @@ Here's a list of awesome humans on the Internet (alphabetical order).
 + <https://evaemmerich.com/>
 + <https://pradyumnashome.com/>
 + <https://pyrito.github.io/>
++ <https://slowlivingbakes.com/>
++ <https://vazgriz.com/>
 
 ## (Allegedly) Real People on the Internet I think are cool
 Here's a list of awesome (supposed) humans on the Internet (arbitrary order).
@@ -41,3 +43,5 @@ Here's a list of awesome (supposed) humans on the Internet (arbitrary order).
 + [mitxela](https://mitxela.com/)
 + [Kaze Emanuar](https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ)
 + [Inigo Quilez](https://iquilezles.org/)
++ [Jam2Go](https://jam2go.com/)
++ [Evan Monsma](https://evanmonsma.com/en-usd)

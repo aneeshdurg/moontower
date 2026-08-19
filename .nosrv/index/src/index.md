@@ -34,6 +34,7 @@ Here's a list of awesome humans on the Internet (alphabetical order).
 + <https://pradyumnashome.com/>
 + <https://pyrito.github.io/>
 + <https://slowlivingbakes.com/>
++ <https://tewaro.org>
 + <https://vazgriz.com/>
 
 ## (Allegedly) Real People on the Internet I think are cool
